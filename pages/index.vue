@@ -3,7 +3,7 @@
     <v-row justify="center">
       <h1>
         Welcome to the <br />
-        Lista Super!
+        Cocompras!
       </h1>
     </v-row>
     <v-row justify="center">

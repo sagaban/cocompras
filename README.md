@@ -1,4 +1,4 @@
-# lista-super
+# Cocompras
 
 > My sweet Nuxt.js project
 
