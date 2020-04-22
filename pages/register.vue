@@ -33,7 +33,7 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer />
-          <v-btn color="primary" @click="login">Login</v-btn>
+          <v-btn color="primary" @click="register">Register</v-btn>
         </v-card-actions>
       </v-card>
       <div class="register-msg">
@@ -47,8 +47,10 @@
 </template>
 
 <script>
+//TODO: Add front validation
 export default {
   layout: 'clean',
+  name: 'RegisterPage',
   data() {
     return {
       username: null,
@@ -56,9 +58,16 @@ export default {
     };
   },
   methods: {
-    login() {
-      console.log(this.username);
-      console.log(this.password);
+    async register() {
+      try {
+        await this.$store.dispatch('register', {
+          username: this.username,
+          password: this.password
+        });
+        // this.$router.push({ name: 'dashboard' })
+      } catch (error) {
+        console.error('Error in RegisterPage');
+      }
     }
   }
 };

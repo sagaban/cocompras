@@ -41,8 +41,10 @@
 </template>
 
 <script>
+//TODO: Add front validation
 export default {
   layout: 'clean',
+  name: 'LoginPage',
   data() {
     return {
       username: null,

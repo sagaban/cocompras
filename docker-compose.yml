@@ -1,0 +1,19 @@
+version: '3'
+services:
+  database:
+    restart: always
+    image: postgres:12.2-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=santiago
+      - POSTGRES_PASSWORD=SecretPassw0rd
+      - POSTGRES_DB=cocompras
+    volumes:
+      - ./db-data:/var/lib/postgresql/data
+  pgadminer:
+    image: adminer:4.7.6-standalone
+    ports:
+      - "8080:8080"
+    depends_on:
+    - database

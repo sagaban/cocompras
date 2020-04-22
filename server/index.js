@@ -22,7 +22,6 @@ async function start() {
     const builder = new Builder(nuxt);
     await builder.build();
   }
-
   const configuration = require('@feathersjs/configuration');
   app.configure(configuration()).use(nuxt.render);
 

@@ -1,4 +1,4 @@
-const colors = require('vuetify/es5/util/colors').default
+const colors = require('vuetify/es5/util/colors').default;
 
 module.exports = {
   mode: 'universal',
@@ -36,8 +36,9 @@ module.exports = {
    */
   buildModules: [
     '@nuxt/typescript-build',
+    // TODO: Enable `stylelint-module` when it db-data folder can be ignores
     // Doc: https://github.com/nuxt-community/stylelint-module
-    '@nuxtjs/stylelint-module',
+    // '@nuxtjs/stylelint-module',
     '@nuxtjs/vuetify'
   ],
   /*
@@ -91,5 +92,5 @@ module.exports = {
 
     // Will register file from project api directory to handle /api/* requires
     { path: '/api', handler: '~/api/index.js' }
-  ]
-}
+  ],
+};
