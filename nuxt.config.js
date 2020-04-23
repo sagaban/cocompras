@@ -92,5 +92,5 @@ module.exports = {
 
     // Will register file from project api directory to handle /api/* requires
     { path: '/api', handler: '~/api/index.js' }
-  ],
+  ]
 };

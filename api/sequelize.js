@@ -1,8 +1,7 @@
 const Sequelize = require('sequelize');
 
-module.exports = function() {
-  const app = this;
-  const connectionString = app.get('api').postgres;
+module.exports = function(app) {
+  const connectionString = app.get('postgres');
   /* TODO: Maybe change to this format
   const sequelize = new Sequelize('database', 'username', 'password', {
     host: 'localhost',
@@ -32,7 +31,7 @@ module.exports = function() {
     });
 
     // Sync to the database
-    sequelize.sync();
+    app.set('sequelizeSync', sequelize.sync());
 
     return result;
   };

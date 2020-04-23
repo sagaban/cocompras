@@ -1,5 +1,7 @@
-const user = require('./user/user.service.js');
-module.exports = function() {
-  const app = this;
-  app.configure(user);
+const users = require('./users/users.service.js');
+const groceries = require('./groceries/groceries.service.js');
+
+module.exports = function(app) {
+  app.configure(users);
+  app.configure(groceries);
 };

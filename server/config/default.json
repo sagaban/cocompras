@@ -1,24 +1,31 @@
 {
   "host": "localhost",
   "port": 3000,
-  "api": {
-    "paginate": {
-      "default": 10,
-      "max": 50
+  "paginate": {
+    "default": 10,
+    "max": 50
+  },
+  "authentication": {
+    "entity": "user",
+    "service": "users",
+    "secret": "lm2wtsa3yv5feoerv435brubvkckfzcyqaiim2dx3a1cbqt1f8y8a2fdy8w9eycia15xdskcr9wvbcgy4emacjk8y3h5ecemtxde85uua0n98ma66bnqdrf4t860cvg5b8xk1iezlbwi8lar0rejaiqbpz93loy13oun74aylzoynt3b6rev1y0d4j985gmep6eg5e381rgrtdigmotqorr9p2wt6ptjnvrrp5iate80r2ca",
+    "authStrategies": [
+      "jwt",
+      "local"
+    ],
+    "jwtOptions": {
+      "header": {
+        "typ": "access"
+      },
+      "audience": "https://yourdomain.com",
+      "issuer": "feathers",
+      "algorithm": "HS256",
+      "expiresIn": "10d"
     },
-    "authentication": {
-      "secret": "lm2wtsa3yv5feoerv435brubvkckfzcyqaiim2dx3a1cbqt1f8y8a2fdy8w9eycia15xdskcr9wvbcgy4emacjk8y3h5ecemtxde85uua0n98ma66bnqdrf4t860cvg5b8xk1iezlbwi8lar0rejaiqbpz93loy13oun74aylzoynt3b6rev1y0d4j985gmep6eg5e381rgrtdigmotqorr9p2wt6ptjnvrrp5iate80r2ca3ft96m076aqsm1k4utziwkbrj0d1smt51zi2zss8yc1qsh92bzh00zro88wj02dfk8germp7vjvh1qbhf3w295qgn4991a4a2hw712mhlw21nceqy3tpycns320qc7r9wxpcqsgn6ox7l9q4r64lhe00upw614yo2z7ykhjsm7gw6xtgs2qr5wc0dj3z1t1t6w1hr58eflzwclnagb6afz22y4j0vyvv4b4pikbgemh12mq7f5vzbgp5nkeax9731uvf6wkzrdz7g73f",
-      "service": "auth/register",
-      "authStrategies": ["jwt"],
-      "entity": "user",
-      "jwtOptions": {
-        "header": {
-          "typ": "access"
-        },
-        "expiresIn": "10d"
-      }
-    },
-    "postgres": "postgres://santiago:SecretPassw0rd@localhost:5432/cocompras"
-  }
-
+    "local": {
+      "usernameField": "username",
+      "passwordField": "password"
+    }
+  },
+  "postgres": "postgres://santiago:SecretPassw0rd@localhost:5432/cocompras"
 }
