@@ -23,12 +23,12 @@ export const mutations = {
   SET_USER_DATA(state: IState, userData: IUserData) {
     state.user = userData;
     localStorage.setItem('user', JSON.stringify(userData));
-    AuthService.setHeader('Authorization', `Bearer ${userData.token}`);
+    AuthService.setToken(userData.token);
+  },
+  CLEAR_USER_DATA() {
+    localStorage.removeItem('user');
+    location.reload();
   }
-  // CLEAR_USER_DATA() {
-  //   localStorage.removeItem('user');
-  //   location.reload();
-  // }
 };
 // TODO: fix types
 export const actions = {
@@ -41,17 +41,20 @@ export const actions = {
       password
     );
     commit('SET_USER_DATA', userData);
+  },
+  async login(
+    { commit }: { commit: any },
+    { username, password }: Credentials
+  ): Promise<any> {
+    const response = await AuthService.login(username, password);
+    commit('SET_USER_DATA', {
+      ...response.user,
+      token: response.accessToken
+    });
+  },
+  logout({ commit }: { commit: any }) {
+    commit('CLEAR_USER_DATA');
   }
-  // login({ commit }, credentials) {
-  //   return axios
-  //     .post('//localhost:3000/login', credentials)
-  //     .then(({ data }) => {
-  //       commit('SET_USER_DATA', data);
-  //     });
-  // },
-  // logout({ commit }) {
-  //   commit('CLEAR_USER_DATA');
-  // }
 };
 export const getters = {
   loggedIn(state: IState): boolean {

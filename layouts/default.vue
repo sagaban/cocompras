@@ -42,7 +42,7 @@
       </v-btn>
     </v-app-bar>
     <v-content>
-      <v-container>
+      <v-container v-if="loggedIn">
         <nuxt />
       </v-container>
     </v-content>
@@ -65,6 +65,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
   data() {
     return {
@@ -87,7 +89,10 @@ export default {
       right: true,
       rightDrawer: false,
       title: 'Vuetify.js'
-    }
+    };
+  },
+  computed: {
+    ...mapGetters(['loggedIn'])
   }
-}
+};
 </script>

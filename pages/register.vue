@@ -3,7 +3,7 @@
     <v-col cols="12" sm="8" md="4">
       <v-card class="elevation-12">
         <v-toolbar color="primary" dark flat>
-          <v-toolbar-title>Login</v-toolbar-title>
+          <v-toolbar-title>Register</v-toolbar-title>
           <v-spacer />
         </v-toolbar>
         <v-card-text>
@@ -38,7 +38,7 @@
       </v-card>
       <div class="register-msg">
         Already registered?
-        <nuxt-link to="/register">
+        <nuxt-link to="/login">
           Login!
         </nuxt-link>
       </div>
@@ -64,9 +64,10 @@ export default {
           username: this.username,
           password: this.password
         });
-        // this.$router.push({ name: 'dashboard' })
+        this.$router.push({ name: 'list' });
       } catch (error) {
-        console.error('Error in RegisterPage');
+        // eslint-disable-next-line no-console
+        console.error('Error in RegisterPage: ', error);
       }
     }
   }

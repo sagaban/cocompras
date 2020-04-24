@@ -52,9 +52,17 @@ export default {
     };
   },
   methods: {
-    login() {
-      console.log(this.username);
-      console.log(this.password);
+    async login() {
+      try {
+        await this.$store.dispatch('login', {
+          username: this.username,
+          password: this.password
+        });
+        this.$router.push({ name: 'list' });
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.error('Error in Login: ', error);
+      }
     }
   }
 };

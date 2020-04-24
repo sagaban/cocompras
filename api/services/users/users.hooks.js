@@ -10,7 +10,12 @@ module.exports = {
     all: [],
     find: [authenticate('jwt')],
     get: [authenticate('jwt')],
-    create: [hashPassword('password')],
+    create: [
+      context => {
+        context.data.pwd = context.data.password;
+        return hashPassword('password')(context);
+      }
+    ],
     update: [hashPassword('password'), authenticate('jwt')],
     patch: [hashPassword('password'), authenticate('jwt')],
     remove: [authenticate('jwt')]
@@ -24,7 +29,26 @@ module.exports = {
     ],
     find: [],
     get: [],
-    create: [],
+    create: [
+      async context => {
+        try {
+          const userData = {
+            username: context.data.username,
+            password: context.data.pwd,
+            strategy: 'local'
+          };
+          const params = { user: context.result };
+          const { accessToken } = await context.app
+            .service('authentication')
+            .create(userData, params);
+          context.dispatch = { ...context.dispatch, accessToken };
+        } catch (error) {
+          // eslint-disable-next-line no-console
+          console.log(error);
+        }
+        return context;
+      }
+    ],
     update: [],
     patch: [],
     remove: []

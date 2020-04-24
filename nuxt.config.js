@@ -30,7 +30,13 @@ module.exports = {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: [],
+  plugins: [
+    '~/plugins/axios.plugin',
+    {
+      src: '~/plugins/isAuthenticated',
+      mode: 'client'
+    }
+  ],
   /*
    ** Nuxt.js dev-modules
    */
@@ -55,7 +61,13 @@ module.exports = {
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options
    */
-  axios: {},
+  axios: {
+    baseURL: `http://localhost:3000/api`,
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json'
+    }
+  },
   /*
    ** vuetify module configuration
    ** https://github.com/nuxt-community/vuetify-module
@@ -84,7 +96,11 @@ module.exports = {
     /*
      ** You can extend webpack config here
      */
-    extend(config, ctx) {}
+    extend(config, ctx) {
+      if (ctx.isDev) {
+        config.devtool = 'eval-source-map';
+      }
+    }
   },
   serverMiddleware: [
     // Will register redirect-ssl npm package
