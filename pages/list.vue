@@ -1,11 +1,20 @@
 <template>
   <div>
-    HolaS
+    <div v-for="grocery in groceries" :key="grocery.id">
+      {{ grocery.name }}
+    </div>
   </div>
 </template>
 
 <script>
-export default {};
+import { mapState } from 'vuex';
+
+export default {
+  fetch() {
+    return this.$store.dispatch('getGroceries');
+  },
+  computed: mapState(['groceries'])
+};
 </script>
 
 <style lang="scss" scoped></style>

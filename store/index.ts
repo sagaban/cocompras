@@ -1,14 +1,25 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import AuthService from '~/services/AuthService';
+import AuthService from '~/services/Authentication';
+import GroceriesService from '~/services/Groceries';
+
 Vue.use(Vuex);
 
 interface IUserData {
   username: String;
   token: String;
 }
+
+interface IGrocery {
+  id: Number;
+  name: String;
+  description: String;
+  image: String;
+}
+
 interface IState {
   user: IUserData | null;
+  groceries: IGrocery[];
 }
 
 interface Credentials {
@@ -17,17 +28,21 @@ interface Credentials {
 }
 
 export const state = (): IState => ({
-  user: null
+  user: null,
+  groceries: []
 });
 export const mutations = {
   SET_USER_DATA(state: IState, userData: IUserData) {
     state.user = userData;
     localStorage.setItem('user', JSON.stringify(userData));
-    AuthService.setToken(userData.token);
+    AuthService().setToken(userData.token);
   },
   CLEAR_USER_DATA() {
     localStorage.removeItem('user');
     location.reload();
+  },
+  SET_ALL_GROCERIES(state: IState, groceries: IGrocery[]) {
+    state.groceries = groceries;
   }
 };
 // TODO: fix types
@@ -36,7 +51,7 @@ export const actions = {
     { commit }: { commit: any },
     { username, password }: Credentials
   ): Promise<any> {
-    const userData: IUserData = await AuthService.registerUser(
+    const userData: IUserData = await AuthService().registerUser(
       username,
       password
     );
@@ -46,7 +61,7 @@ export const actions = {
     { commit }: { commit: any },
     { username, password }: Credentials
   ): Promise<any> {
-    const response = await AuthService.login(username, password);
+    const response = await AuthService().login(username, password);
     commit('SET_USER_DATA', {
       ...response.user,
       token: response.accessToken
@@ -54,6 +69,10 @@ export const actions = {
   },
   logout({ commit }: { commit: any }) {
     commit('CLEAR_USER_DATA');
+  },
+  async getGroceries({ commit }: { commit: any }): Promise<any> {
+    const response = await GroceriesService().getAll();
+    commit('SET_ALL_GROCERIES', response.data.data);
   }
 };
 export const getters = {
