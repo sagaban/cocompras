@@ -1,15 +1,16 @@
 <template>
   <div>
-    <div v-for="grocery in groceries" :key="grocery.id">
-      {{ grocery.name }}
-    </div>
+    <grocery-list :groceries="groceries" />
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex';
-
+import GroceryList from '~/components/GroceryList';
 export default {
+  components: {
+    GroceryList
+  },
   fetch() {
     return this.$store.dispatch('getGroceries');
   },
