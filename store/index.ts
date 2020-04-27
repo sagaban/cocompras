@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import AuthService from '~/services/Authentication';
 import GroceriesService from '~/services/Groceries';
+import UserListsService from '~/services/UserLists';
 
 Vue.use(Vuex);
 
@@ -17,9 +18,15 @@ interface IGrocery {
   image: String;
 }
 
+interface IUserList {
+  id: Number;
+  name: String;
+}
+
 interface IState {
   user: IUserData | null;
   groceries: IGrocery[];
+  lists: IUserList[];
 }
 
 interface Credentials {
@@ -29,7 +36,8 @@ interface Credentials {
 
 export const state = (): IState => ({
   user: null,
-  groceries: []
+  groceries: [],
+  lists: []
 });
 export const mutations = {
   SET_USER_DATA(state: IState, userData: IUserData) {
@@ -43,6 +51,9 @@ export const mutations = {
   },
   SET_ALL_GROCERIES(state: IState, groceries: IGrocery[]) {
     state.groceries = groceries;
+  },
+  SET_ALL_USER_LISTS(state: IState, lists: IUserList[]) {
+    state.lists = lists;
   }
 };
 // TODO: fix types
@@ -73,6 +84,10 @@ export const actions = {
   async getGroceries({ commit }: { commit: any }): Promise<any> {
     const response = await GroceriesService().getAll();
     commit('SET_ALL_GROCERIES', response.data.data);
+  },
+  async getUserLists({ commit }: { commit: any }): Promise<any> {
+    const response = await UserListsService().getAll();
+    commit('SET_ALL_USER_LISTS', response.data.data);
   }
 };
 export const getters = {
