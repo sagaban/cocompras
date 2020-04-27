@@ -1,16 +1,18 @@
-const { authenticate } = require('@feathersjs/authentication').hooks;
+import getUserId from '../../hooks/getUserId';
+const logger = require('../../utils/logger');
 
 module.exports = {
   before: {
     all: [
-      async context => {
-        const res = await authenticate('jwt')(context);
-        const userId = res.params.authentication.payload.sub;
-        if (res.data) {
-          res.data.userId = userId;
+      getUserId,
+      context => {
+        if (context.data && context.data.groceries) {
+          context.params.sequelize = {
+            ...context.params.sequelize,
+            raw: false
+          };
         }
-        res.params.query = { ...res.params.query, userId };
-        return res;
+        return context;
       }
     ],
     find: [],
@@ -25,7 +27,25 @@ module.exports = {
     all: [],
     find: [],
     get: [],
-    create: [],
+    create: [
+      async context => {
+        if (context.data && context.data.groceries) {
+          try {
+            const response = await context.result.addGroceries(
+              context.data.groceries
+            );
+            const groceries = response.map(({ dataValues }) => dataValues);
+            context.result.dataValues = {
+              ...context.result.dataValues,
+              groceries
+            };
+          } catch (error) {
+            logger.error(error);
+          }
+        }
+        return context;
+      }
+    ],
     update: [],
     patch: [],
     remove: []

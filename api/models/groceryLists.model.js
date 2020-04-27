@@ -3,13 +3,13 @@ const DataTypes = Sequelize.DataTypes;
 
 module.exports = function(app) {
   const sequelizeClient = app.get('sequelizeClient');
-  const userLists = sequelizeClient.define(
-    'userLists',
+  const groceryLists = sequelizeClient.define(
+    'groceryLists',
     {
-      name: {
-        type: DataTypes.STRING, // VARCHAR(255)
+      amount: {
+        type: DataTypes.INTEGER, // VARCHAR(255)
         allowNull: false,
-        unique: true
+        defaultValue: 0
       }
     },
     {
@@ -20,10 +20,9 @@ module.exports = function(app) {
       }
     }
   );
-  userLists.associate = function(models) {
-    userLists.belongsToMany(models.groceries, {
-      through: models.groceryLists
-    });
+  groceryLists.associate = function(/* models */) {
+    // Define associations here
+    // See http://docs.sequelizejs.com/en/latest/docs/associations/
   };
-  return userLists;
+  return groceryLists;
 };

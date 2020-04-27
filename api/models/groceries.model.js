@@ -29,9 +29,10 @@ module.exports = function(app) {
   );
 
   // eslint-disable-next-line no-unused-vars
-  groceries.associate = function(/* models */) {
-    // Define associations here
-    // See http://docs.sequelizejs.com/en/latest/docs/associations/
+  groceries.associate = function(models) {
+    groceries.belongsToMany(models.userLists, {
+      through: models.groceryLists
+    });
   };
 
   return groceries;
