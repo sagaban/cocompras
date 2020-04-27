@@ -8,11 +8,10 @@
   </v-list-item-group>
 </template>
 
-<script lang="ts">
-import Vue from 'vue';
+<script>
 import GroceryItem from '~/components/GroceryItem';
 
-export default Vue.extend({
+export default {
   name: 'GroceryList',
   components: {
     GroceryItem
@@ -23,7 +22,7 @@ export default Vue.extend({
       default: () => []
     }
   }
-});
+};
 </script>
 
 <style lang="scss" scoped></style>

@@ -3,28 +3,13 @@ const DataTypes = Sequelize.DataTypes;
 
 module.exports = function(app) {
   const sequelizeClient = app.get('sequelizeClient');
-  const users = sequelizeClient.define(
-    'users',
+  const userLists = sequelizeClient.define(
+    'userLists',
     {
-      id: {
-        primaryKey: true,
-        type: DataTypes.UUID,
-        defaultValue: DataTypes.UUIDV4
-      },
-      username: {
+      name: {
         type: DataTypes.STRING, // VARCHAR(255)
         allowNull: false,
         unique: true
-      },
-      email: {
-        type: DataTypes.STRING,
-        validate: {
-          isEmail: true
-        }
-      },
-      password: {
-        type: DataTypes.STRING,
-        allowNull: false
       }
     },
     {
@@ -35,10 +20,9 @@ module.exports = function(app) {
       }
     }
   );
-  users.associate = function(models) {
+  userLists.associate = function(/* models */) {
     // Define associations here
     // See http://docs.sequelizejs.com/en/latest/docs/associations/
-    users.hasMany(models.userLists);
   };
-  return users;
+  return userLists;
 };
