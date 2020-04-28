@@ -5,6 +5,7 @@ const feathers = require('@feathersjs/feathers');
 process.env['NODE_CONFIG_DIR'] = path.join(__dirname, '../server/config/');
 const configuration = require('@feathersjs/configuration');
 const express = require('@feathersjs/express');
+const cors = require('cors');
 const logger = require('./hooks/logger');
 
 const services = require('./services');
@@ -15,6 +16,7 @@ const sequelize = require('./sequelize');
 const app = express(feathers());
 app.configure(configuration());
 
+app.use(cors());
 // Parse HTTP JSON bodies
 app.use(express.json());
 // Parse URL-encoded params
