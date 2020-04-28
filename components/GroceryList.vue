@@ -4,6 +4,9 @@
       v-for="grocery in groceries"
       :key="grocery.id"
       :grocery="grocery"
+      :only-checkbox="onlyCheckbox"
+      :avatar-size="avatarSize"
+      @valueChanged="$emit('valueChanged', $event)"
     />
   </v-list-item-group>
 </template>
@@ -20,6 +23,14 @@ export default {
     groceries: {
       type: Array,
       default: () => []
+    },
+    avatarSize: {
+      type: Number,
+      default: 96
+    },
+    onlyCheckbox: {
+      type: Boolean,
+      default: false
     }
   }
 };

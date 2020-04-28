@@ -1,18 +1,19 @@
 <template>
   <div>
     <user-lists :user-lists="lists" />
-    <v-btn
-      absolute
-      dark
-      fab
-      bottom
-      right
-      color="pink"
-      class="add-new-list-btn"
-      @click="addNewList"
-    >
-      <v-icon>mdi-plus</v-icon>
-    </v-btn>
+    <nuxt-link to="/newList">
+      <v-btn
+        absolute
+        dark
+        fab
+        bottom
+        right
+        color="indigo"
+        class="add-new-list-btn"
+      >
+        <v-icon>mdi-plus</v-icon>
+      </v-btn>
+    </nuxt-link>
   </div>
 </template>
 
@@ -26,12 +27,7 @@ export default {
   fetch() {
     return this.$store.dispatch('getUserLists');
   },
-  computed: mapState(['lists']),
-  methods: {
-    addNewList() {
-      console.log('addNewList');
-    }
-  }
+  computed: mapState(['lists'])
 };
 </script>
 

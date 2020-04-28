@@ -1,5 +1,6 @@
 import Vue from 'vue';
-import Vuex from 'vuex';
+import Vuex, { GetterTree, ActionTree, MutationTree } from 'vuex';
+
 import AuthService from '~/services/Authentication';
 import GroceriesService from '~/services/Groceries';
 import UserListsService from '~/services/UserLists';
@@ -12,10 +13,13 @@ interface IUserData {
 }
 
 interface IGrocery {
-  id: Number;
+  id: number;
   name: String;
   description: String;
   image: String;
+}
+interface IGroceryHash {
+  [key: number]: IGrocery;
 }
 
 interface IUserList {
@@ -25,7 +29,7 @@ interface IUserList {
 
 interface IState {
   user: IUserData | null;
-  groceries: IGrocery[];
+  groceries: IGroceryHash;
   lists: IUserList[];
 }
 
@@ -36,10 +40,10 @@ interface Credentials {
 
 export const state = (): IState => ({
   user: null,
-  groceries: [],
+  groceries: {},
   lists: []
 });
-export const mutations = {
+export const mutations: MutationTree<IState> = {
   SET_USER_DATA(state: IState, userData: IUserData) {
     state.user = userData;
     localStorage.setItem('user', JSON.stringify(userData));
@@ -49,15 +53,19 @@ export const mutations = {
     localStorage.removeItem('user');
     location.reload();
   },
+  SET_GROCERY(state: IState, grocery: IGrocery) {
+    Vue.set(state.groceries, grocery.id, grocery);
+    // state.groceries[grocery.id as number] = grocery;
+  },
   SET_ALL_GROCERIES(state: IState, groceries: IGrocery[]) {
-    state.groceries = groceries;
+    groceries.forEach(grocery => Vue.set(state.groceries, grocery.id, grocery));
   },
   SET_ALL_USER_LISTS(state: IState, lists: IUserList[]) {
     state.lists = lists;
   }
 };
 // TODO: fix types
-export const actions = {
+export const actions: ActionTree<IState, any> = {
   async register(
     { commit }: { commit: any },
     { username, password }: Credentials
@@ -88,9 +96,13 @@ export const actions = {
   async getUserLists({ commit }: { commit: any }): Promise<any> {
     const response = await UserListsService().getAll();
     commit('SET_ALL_USER_LISTS', response.data.data);
+  },
+  async createUserList({ commit }: { commit: any }, newList): Promise<any> {
+    const response = await UserListsService().save(newList);
+    commit('SET_ALL_USER_LISTS', response.data.data);
   }
 };
-export const getters = {
+export const getters: GetterTree<IState, any> = {
   loggedIn(state: IState): boolean {
     return !!state.user;
   }
