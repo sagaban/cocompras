@@ -29,26 +29,7 @@ module.exports = {
     ],
     find: [],
     get: [],
-    create: [
-      async context => {
-        try {
-          const userData = {
-            username: context.data.username,
-            password: context.data.pwd,
-            strategy: 'local'
-          };
-          const params = { user: context.result };
-          const { accessToken } = await context.app
-            .service('authentication')
-            .create(userData, params);
-          context.dispatch = { ...context.dispatch, accessToken };
-        } catch (error) {
-          // eslint-disable-next-line no-console
-          console.log(error);
-        }
-        return context;
-      }
-    ],
+    create: [],
     update: [],
     patch: [],
     remove: []

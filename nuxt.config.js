@@ -30,13 +30,7 @@ module.exports = {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: [
-    '~/plugins/axios.plugin',
-    {
-      src: '~/plugins/isAuthenticated',
-      mode: 'client'
-    }
-  ],
+  plugins: ['~/plugins/axios.plugin'],
   /*
    ** Nuxt.js dev-modules
    */
@@ -55,7 +49,8 @@ module.exports = {
     '@nuxtjs/axios',
     '@nuxtjs/pwa',
     // Doc: https://github.com/nuxt-community/dotenv-module
-    '@nuxtjs/dotenv'
+    '@nuxtjs/dotenv',
+    '@nuxtjs/auth'
   ],
   /*
    ** Axios module configuration
@@ -66,6 +61,27 @@ module.exports = {
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json'
+    }
+  },
+  auth: {
+    strategies: {
+      local: {
+        endpoints: {
+          login: {
+            url: '/authentication',
+            method: 'post',
+            propertyName: 'accessToken'
+          },
+          logout: false,
+          user: { url: '/users', method: 'get', propertyName: '' }
+        }
+      }
+    },
+    redirect: {
+      login: '/login',
+      logout: '/',
+      callback: '/list',
+      home: '/list'
     }
   },
   /*

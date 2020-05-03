@@ -41,7 +41,7 @@
 </template>
 
 <script>
-//TODO: Add front validation
+//TODO: Add front validation to the form
 export default {
   layout: 'clean',
   name: 'LoginPage',
@@ -52,17 +52,11 @@ export default {
     };
   },
   methods: {
-    async login() {
-      try {
-        await this.$store.dispatch('login', {
-          username: this.username,
-          password: this.password
-        });
-        this.$router.push({ name: 'list' });
-      } catch (error) {
-        // eslint-disable-next-line no-console
-        console.error('Error in Login: ', error);
-      }
+    login() {
+      this.$store.dispatch('login', {
+        username: this.username,
+        password: this.password
+      });
     }
   }
 };

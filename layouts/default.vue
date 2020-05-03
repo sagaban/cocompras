@@ -29,14 +29,14 @@
 
       <v-toolbar-title v-text="title" />
       <v-spacer />
-      <v-toolbar-title v-text="username" />
+      <v-toolbar-title v-if="$auth.loggedIn" v-text="$auth.user.username" />
 
-      <v-btn icon @click="logout">
+      <v-btn v-if="$auth.loggedIn" icon @click="logout">
         <v-icon>mdi-logout</v-icon>
       </v-btn>
     </v-app-bar>
     <v-content>
-      <v-container v-if="loggedIn">
+      <v-container>
         <nuxt />
       </v-container>
     </v-content>
@@ -47,9 +47,8 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-
 export default {
+  middleware: 'auth',
   data() {
     return {
       clipped: true,
@@ -66,15 +65,10 @@ export default {
       title: 'Cocompras'
     };
   },
-  computed: {
-    ...mapGetters(['loggedIn']),
-    username() {
-      return this.$store.state.user ? this.$store.state.user.username : '';
-    }
-  },
+  computed: {},
   methods: {
     logout() {
-      this.$store.dispatch('logout');
+      this.$auth.logout();
     }
   }
 };
