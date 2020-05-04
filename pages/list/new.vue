@@ -23,7 +23,6 @@
       bottom
       right
       color="green"
-      class="add-new-list-btn"
       @click="createList"
     >
       <v-icon>mdi-plus</v-icon>

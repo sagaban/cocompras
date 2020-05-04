@@ -28,7 +28,6 @@ module.exports = function(app) {
     }
   );
 
-  // eslint-disable-next-line no-unused-vars
   groceries.associate = function(models) {
     groceries.belongsToMany(models.userLists, {
       through: models.groceryLists

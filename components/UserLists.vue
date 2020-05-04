@@ -1,6 +1,12 @@
 <template>
   <v-list-item-group>
-    <user-list-item v-for="list in userLists" :key="list.id" :list="list" />
+    <nuxt-link
+      v-for="list in userLists"
+      :key="list.id"
+      :to="'/list/' + list.id"
+    >
+      <user-list-item :list="list" />
+    </nuxt-link>
   </v-list-item-group>
 </template>
 
@@ -21,4 +27,11 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+a:link,
+a:visited,
+a:hover,
+a:active {
+  text-decoration: none;
+}
+</style>

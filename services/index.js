@@ -10,8 +10,8 @@ export default function(path, getOtherActions) {
       getAll() {
         return axios.get(path);
       },
-      get(id) {
-        return axios.get(`${path}/${id}`);
+      get(id, params) {
+        return axios.get(`${path}${id}`, { params });
       },
       save(object) {
         return axios.post(path, object);
@@ -23,7 +23,7 @@ export default function(path, getOtherActions) {
         return axios.put(`${path}/${id}`, object);
       },
       delete(id) {
-        return axios.delete(`${path}/${id}`);
+        return axios.delete(`${path}${id}`);
       }
     };
     const otherActions = getOtherActions ? getOtherActions(axios) : {};

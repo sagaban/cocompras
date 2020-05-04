@@ -1,10 +1,9 @@
 import Vue from 'vue';
-import Vuex, { GetterTree, ActionTree, MutationTree } from 'vuex';
+import Vuex, { ActionTree, MutationTree } from 'vuex';
 
 import UsersService from '~/services/Users';
 import GroceriesService from '~/services/Groceries';
 import UserListsService from '~/services/UserLists';
-import ListGroceriesService from '~/services/ListGroceries';
 
 Vue.use(Vuex);
 
@@ -41,7 +40,7 @@ interface Credentials {
   password: String;
 }
 // I hate TypeScript
-const getAuthObject = context => context.$auth;
+const getAuthObject = (context: any): any => context.$auth;
 
 export const state = (): IState => ({
   groceries: {},
@@ -102,8 +101,20 @@ export const actions: ActionTree<IState, any> = {
     const response = await UserListsService().getAll();
     commit('SET_ALL_USER_LISTS', response.data.data);
   },
+  async getUserList({ commit }, { id, params }: { id: number; params: any }) {
+    const combinesParams = { embedded: true, ...params };
+    const response = await UserListsService().get(id, combinesParams);
+    const listGroceries = Object.values(response.data.groceries).map(
+      ({ groceryLists }: any) => groceryLists
+    );
+    commit('SET_LIST_GROCERIES', { listId: id, listGroceries });
+  },
   async createUserList({ commit }, newList) {
     const response = await UserListsService().save(newList);
-    commit('SET_ALL_USER_LISTS', response.data.data);
+    commit('SET_ALL_USER_LISTS', [response.data]);
+  },
+  updateUserList(_state) {
+    // eslint-disable-next-line no-console
+    console.log('Update list and groceries amount');
   }
 };

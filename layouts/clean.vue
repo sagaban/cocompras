@@ -9,7 +9,19 @@
 </template>
 
 <script>
-export default {};
+export default {
+  beforeCreate() {
+    const loggedIn = this.$auth.loggedIn;
+    const page = this.$route.name;
+
+    if (!loggedIn && !['index', 'login', 'register'].includes(page)) {
+      this.$router.push({ name: 'login' });
+    } else if (loggedIn && ['index', 'login', 'register'].includes(page)) {
+      this.$router.push({ name: 'list' });
+    }
+  }
+};
+
 </script>
 
 <style lang="scss" scoped></style>

@@ -1,7 +1,10 @@
 <template>
   <div>
-    <user-lists :user-lists="lists" />
-    <nuxt-link to="/newList">
+    <user-lists v-if="listsArray.length" :user-lists="listsArray" />
+    <div v-else>
+      No hay ninguna lista. Creá una con el botón "+" de abajo a la derecha
+    </div>
+    <nuxt-link to="/list/new">
       <v-btn
         absolute
         dark
@@ -27,7 +30,12 @@ export default {
   fetch() {
     return this.$store.dispatch('getUserLists');
   },
-  computed: mapState(['lists'])
+  computed: {
+    ...mapState(['lists']),
+    listsArray() {
+      return Object.keys(this.lists).map(id => this.lists[id]);
+    }
+  }
 };
 </script>
 

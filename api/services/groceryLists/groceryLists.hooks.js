@@ -1,8 +1,8 @@
-import getUserId from '../../hooks/getUserId';
+const { authenticate } = require('@feathersjs/authentication').hooks;
 
 module.exports = {
   before: {
-    all: [getUserId],
+    all: [authenticate('jwt')],
     find: [],
     get: [],
     create: [],

@@ -13,8 +13,8 @@
     />
     <grocery-item-counter
       v-else
-      :amount="grocery.value"
-      @change="valueChanged(grocery.id)"
+      :amount="grocery.amount"
+      @change="valueChanged({ groceryId: grocery.id, diff: $event })"
     />
   </v-list-item>
 </template>
@@ -41,8 +41,8 @@ export default {
     }
   },
   methods: {
-    valueChanged(groceryId) {
-      this.$emit('valueChanged', groceryId);
+    valueChanged(value) {
+      this.$emit('valueChanged', value);
     }
   }
 };
